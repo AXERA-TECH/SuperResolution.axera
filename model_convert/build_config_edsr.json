@@ -1,0 +1,48 @@
+{
+  "input": "./edsr_baseline_x2_1.onnx",
+  "output_dir": "./output",
+  "output_name": "edsr_baseline_x2_1.axmodel",
+  "work_dir": "",
+  "model_type": "ONNX",
+  "target_hardware": "AX650",
+  "npu_mode": "NPU3",
+  "onnx_opt": {
+    "disable_onnx_optimization": false,
+    "model_check": false,
+   },
+  "quant": {
+    "input_configs": [
+      {
+        "tensor_name": "DEFAULT",
+        "calibration_dataset": "Image.zip",
+        "calibration_format": "Image",
+        "calibration_size": 10,
+        "calibration_mean": [0, 0, 0],
+        "calibration_std": [1.0, 1.0, 1.0]
+      }
+    ],
+    "calibration_method": "MinMax",
+    "precision_analysis": true,
+    "precision_analysis_method": "EndToEnd",
+    "precision_analysis_mode": "Reference"
+  },
+  "input_processors": [
+    {
+      "tensor_name": "DEFAULT",
+      "tensor_format": "AutoColorSpace",
+      "src_format": "AutoColorSpace",
+      "src_dtype": "FP32",
+      "csc_mode": "FullRange",
+      "csc_mat": [1.164, 0, 1.596, -222.912, 1.164, -0.392, -0.813, 135.616, 1.164, 2.017, 0, -276.8]
+    }
+  ],
+  "output_processors": [
+    {
+      "tensor_name": "DEFAULT"
+    }
+  ],
+  "compiler": {
+    "check": 0
+  }
+}
+
