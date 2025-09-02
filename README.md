@@ -1,6 +1,7 @@
 # SuperResolution.axera
 SuperResolution DEMO on Axera
 
+- 开源超分模型
 - 目前支持  Python 语言 
 - 预编译模型下载[models](https://github.com/wzf19947/PPOCR_v5/releases/download/v1.0.0/model.tar.gz)。如需自行转换请参考[模型转换](/model_convert/README.md)
 
@@ -39,8 +40,16 @@ pip3 install -r requirements.txt
 cd python
 python3 run_onnx.py --model ./edsr_baseline_x2_1.onnx --scale 2 --dir_demo ./test_1920x1080.mp4
 ```
+
 输出结果
-![output](asserts/res_onnx.jpg)
+```
+/usr/local/lib/python3.8/dist-packages/onnxruntime/capi/onnxruntime_inference_collection.py:69: UserWarning: Specified provider 'CUDAExecutionProvider' is not in available provider names.Available providers: 'AzureExecutionProvider, CPUExecutionProvider'
+  warnings.warn(
+100%|█████████████████████████████████████████| 267/267 [02:17<00:00,  1.95it/s]
+Total time: 58.280 seconds for 267 frames
+Average time: 0.218 seconds for each frame
+``` 
+![Alt text](video/1.png)
 
 ##### 基于AXEngine运行  
 在开发板上运行命令
@@ -48,9 +57,22 @@ python3 run_onnx.py --model ./edsr_baseline_x2_1.onnx --scale 2 --dir_demo ./tes
 ```
 cd python  
 python3 run_axmodel.py --model ./edsr_baseline_x2_1.axmodel --scale 2 --dir_demo ./test_1920x1080.mp4
-```  
+```
+
 输出结果
-![output](asserts/res_ax.jpg)
+```
+[INFO] Available providers:  ['AxEngineExecutionProvider']
+[INFO] Using provider: AxEngineExecutionProvider
+[INFO] Chip type: ChipType.MC50
+[INFO] VNPU type: VNPUType.DISABLED
+[INFO] Engine version: 2.12.0s
+[INFO] Model type: 2 (triple core)
+[INFO] Compiler version: 4.2 6bff2f67
+100%|█████████████████████████████████████████| 267/267 [10:06<00:00,  2.27s/it]
+Total time: 99.582 seconds for 267 frames
+Average time: 0.373 seconds for each frame
+```
+![Alt text](video/2.png)
 
 
 运行参数说明:  
