@@ -15,6 +15,8 @@ parser.add_argument("--model", type=str, default="edsr_baseline_x2_1.axmodel", h
 parser.add_argument('--scale', nargs='+', type=int, default=[2], help='super resolution scale')
 parser.add_argument("--dir_demo", type=str, default='../video/test_1920x1080.mp4', help="demo image directory")
 parser.add_argument('--rgb_range', type=int, default=255, help='maximum value of RGB')
+parser.add_argument('--arch', type=str, default='espcn', help='model architecture (options: edsr、espcn)')
+
 
 def quantize(img, rgb_range):
     pixel_range = 255 / rgb_range
@@ -24,7 +26,7 @@ def from_numpy(x):
     return x if isinstance(x, np.ndarray) else np.array(x)
 
 class VideoTester():
-    def __init__(self, scale, my_model, dir_demo, rgb_range=255, cuda=True, arch='EDSR'):
+    def __init__(self, scale, my_model, dir_demo, rgb_range=255, cuda=True, arch='espcn'):
         self.scale = scale
         self.rgb_range = rgb_range
         self.session = axe.InferenceSession(my_model, 'AxEngineExecutionProvider')
@@ -55,7 +57,7 @@ class VideoTester():
             total_times = 0
             tqdm_test = tqdm(range(total_frames), ncols=80)
             
-            if self.arch == 'EDSR':
+            if self.arch == 'edsr':
                 for _ in tqdm_test:
                     success, lr = vidcap.read()
                     if not success: break
@@ -77,7 +79,7 @@ class VideoTester():
                     ndarr = normalized.transpose(1, 2, 0).astype(np.uint8)
                     vidwri.write(ndarr)
                     
-            elif self.arch == 'ESPCN':
+            elif self.arch == 'espcn':
                 for _ in tqdm_test:
                     success, lr = vidcap.read()
                     if not success: break
@@ -119,7 +121,7 @@ class VideoTester():
 
 def main():
     args = parser.parse_args()
-    t = VideoTester(args.scale, args.model, args.dir_demo, arch='EDSR')
+    t = VideoTester(args.scale, args.model, args.dir_demo, arch=args.arch)
     t.test()
 
 if __name__ == '__main__':
