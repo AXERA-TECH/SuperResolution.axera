@@ -38,7 +38,7 @@ pip3 install -r requirements.txt
 在开发板或PC上，运行以下命令  
 ```  
 cd python
-python3 run_onnx.py --model ./espcn_x2_T9.onnx --scale 2 --dir_demo ./test_1920x1080.mp4
+python3 run_onnx.py --model ./espcn_x2_T9.onnx --scale 2 --dir_demo ./test_1920x1080.mp4 --arch espcn
 ```
 
 输出结果
@@ -56,7 +56,7 @@ Average time: 0.218 seconds for each frame
 
 ```
 cd python  
-python3 run_axmodel.py --model ./espcn_x2_T9.axmodel --scale 2 --dir_demo ./test_1920x1080.mp4
+python3 run_axmodel.py --model ./espcn_x2_T9.axmodel --scale 2 --dir_demo ./test_1920x1080.mp4 --arch espcn
 ```
 
 输出结果
